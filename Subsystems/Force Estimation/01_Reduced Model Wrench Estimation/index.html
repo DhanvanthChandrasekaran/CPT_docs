@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://.github.io/Subsystems/Force%20Estimation/01_Reduced%20Model%20Wrench%20Estimation/" />
+      <link rel="shortcut icon" href="../../../img/favicon.ico" />
+    <title>Reduced Model Wrench Estimation - CPT Project Documentation</title>
+    <link rel="stylesheet" href="../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Reduced Model Wrench Estimation";
+        var mkdocs_page_input_path = "Subsystems/Force Estimation/01_Reduced Model Wrench Estimation.md";
+        var mkdocs_page_url = "/Subsystems/Force%20Estimation/01_Reduced%20Model%20Wrench%20Estimation/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../.." class="icon icon-home"> CPT Project Documentation
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">Code</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../Code/cpt_bringup/">cpt_bringup</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../Code/cpt_control/">cpt_control</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../Code/cpt_simulation/">cpt_simulation</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Subsystems</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" >Force Estimation</a>
+    <ul class="current">
+                <li class="toctree-l2 current"><a class="reference internal current" href="#">Reduced Model Wrench Estimation</a>
+    <ul class="current">
+    <li class="toctree-l3"><a class="reference internal" href="#1-introduction-and-theory">1. Introduction and Theory</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#2-reference-frames-and-variable-definitions">2. Reference Frames and Variable Definitions</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#21-reference-frames">2.1 Reference Frames</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#22-variables-and-parameters">2.2 Variables and Parameters</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#3-system-modeling">3. System Modeling</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#31-translational-dynamics">3.1 Translational Dynamics</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#32-rotational-dynamics">3.2 Rotational Dynamics</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#4-filter-formulation-extended-kalman-filter">4. Filter Formulation (Extended Kalman Filter)</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#41-state-input-and-measurement-vectors">4.1 State, Input, and Measurement Vectors</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#42-estimation-steps">4.2 Estimation Steps</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../02_Full%20Model%20Wrench%20Estimation/">Full Model Wrench Estimation</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Theory</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" >Suplement</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../Theory/Suplement/Extended%20Kalman%20Filter/">Extended Kalman Filter (EKF)</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../Theory/Suplement/Kalman%20Filters/">Linear Kalman Filter (KF)</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../Theory/Suplement/Unscented%20Kalman%20Filter/">Unscented Kalman Filter (UKF)</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >State Estimation (VIO)</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../State%20Estimation%20%28VIO%29/00_first_draft/">First Draft</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../State%20Estimation%20%28VIO%29/01_theory_and_algorithms/">Visual Inertial Odometry (VIO) Theory &amp; Algorithms</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../State%20Estimation%20%28VIO%29/02_hardware_selection/">Hardware Considerations for VIO</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../State%20Estimation%20%28VIO%29/03_implementation_and_calibration/">VIO Implementation &amp; Calibration</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../..">CPT Project Documentation</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Subsystems</li>
+          <li class="breadcrumb-item">Force Estimation</li>
+      <li class="breadcrumb-item active">Reduced Model Wrench Estimation</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="reduced-model-wrench-estimation">Reduced Model Wrench Estimation</h1>
+<blockquote>
+<p>⚠️ <strong>Note:</strong> This documentation is the <strong>not final draft</strong> and is AI-generated. It provides a detailed explanation based on the mathematical models and theory presented in the research paper <em>"Robust Collaborative Object Transportation Using Multiple MAVs"</em> (arXiv:1711.08753v1) by Andrea Tagliabue, Mina Kamel, Roland Siegwart, and Juan Nieto[cite: 1].</p>
+</blockquote>
+<h2 id="1-introduction-and-theory">1. Introduction and Theory</h2>
+<p>The <strong>Reduced Model Wrench Estimation</strong> framework is designed to estimate the external forces and torques (the "wrench") acting on a Micro Aerial Vehicle (MAV) during physical interactions or environmental disturbances. The defining characteristic of the reduced model is that it assumes the closed-loop attitude dynamics of the MAV can be approximated as a decoupled, second-order linear system parameterized by Euler angles. </p>
+<p>This strategy is highly appealing because many commercial MAVs possess proprietary low-level attitude controllers and do not provide direct feedback of individual motor speeds. By abstracting the complex nonlinear aerodynamic and rotor dynamics into a simplified, aggregated response to commanded thrust and attitude inputs, we can construct an efficient Extended Kalman Filter (EKF) to continuously estimate the unmeasured external wrenches.</p>
+<h2 id="2-reference-frames-and-variable-definitions">2. Reference Frames and Variable Definitions</h2>
+<p>To express the dynamics accurately, we define the following reference frames and physical quantities:</p>
+<h3 id="21-reference-frames">2.1 Reference Frames</h3>
+<ul>
+<li><span class="arithmatex">\(I\)</span>: The <strong>Inertial reference frame</strong>, with its positive <span class="arithmatex">\(z\)</span>-axis pointing upwards, opposing gravity.</li>
+<li><span class="arithmatex">\(B\)</span>: The <strong>Body reference frame</strong>, firmly attached to the Center of Gravity (CoG) of the MAV.</li>
+</ul>
+<h3 id="22-variables-and-parameters">2.2 Variables and Parameters</h3>
+<ul>
+<li><span class="arithmatex">\({}_I p \in \mathbb{R}^{3 \times 1}\)</span>: Position vector of the MAV expressed in <span class="arithmatex">\(I\)</span> <span class="arithmatex">\([m]\)</span>.</li>
+<li><span class="arithmatex">\({}_I v \in \mathbb{R}^{3 \times 1}\)</span>: Linear velocity vector of the MAV expressed in <span class="arithmatex">\(I\)</span> <span class="arithmatex">\([m \cdot s^{-1}]\)</span>.</li>
+<li><span class="arithmatex">\(\eta = [\phi, \theta, \psi]^T \in \mathbb{R}^{3 \times 1}\)</span>: Roll, pitch, and yaw Euler angles <span class="arithmatex">\([rad]\)</span>.</li>
+<li><span class="arithmatex">\(R_{IB}(\eta) \in \mathbb{R}^{3 \times 3}\)</span>: Orthogonal rotation matrix transforming vectors from <span class="arithmatex">\(B\)</span> to <span class="arithmatex">\(I\)</span>.</li>
+<li><span class="arithmatex">\(m \in \mathbb{R}\)</span>: Total mass of the MAV <span class="arithmatex">\([kg]\)</span>.</li>
+<li><span class="arithmatex">\(g \in \mathbb{R}\)</span>: Scalar gravitational acceleration <span class="arithmatex">\([m \cdot s^{-2}]\)</span>.</li>
+<li><span class="arithmatex">\(K_{drag} \in \mathbb{R}^{3 \times 3}\)</span>: Positive diagonal matrix representing linear aerodynamic drag coefficients <span class="arithmatex">\([N \cdot s \cdot m^{-1}]\)</span>.</li>
+<li><span class="arithmatex">\(U_4 \in \mathbb{R}\)</span>: Total scalar thrust produced by the propellers along the <span class="arithmatex">\(z\)</span>-axis of <span class="arithmatex">\(B\)</span> <span class="arithmatex">\([N]\)</span>.</li>
+<li><span class="arithmatex">\({}_I F^{ext} \in \mathbb{R}^{3 \times 1}\)</span>: Vector of unknown external forces acting on the MAV, expressed in <span class="arithmatex">\(I\)</span> <span class="arithmatex">\([N]\)</span>.</li>
+<li><span class="arithmatex">\({}_B M^{ext} \in \mathbb{R}^{3 \times 1}\)</span>: Vector of unknown external torques acting on the MAV, expressed in <span class="arithmatex">\(B\)</span> <span class="arithmatex">\([N \cdot m]\)</span>.</li>
+<li><span class="arithmatex">\(\omega_{n,\phi}, k_\phi, \xi_\phi \in \mathbb{R}\)</span>: Positive constants characterizing the closed-loop roll dynamic response (natural frequency <span class="arithmatex">\([rad \cdot s^{-1}]\)</span>, static gain, and damping ratio). Similar parameters exist for pitch and yaw.</li>
+<li><span class="arithmatex">\(J_{xx}, J_{yy}, J_{zz} \in \mathbb{R}\)</span>: Diagonal entries of the MAV's moment of inertia tensor <span class="arithmatex">\([kg \cdot m^2]\)</span>.</li>
+</ul>
+<h2 id="3-system-modeling">3. System Modeling</h2>
+<h3 id="31-translational-dynamics">3.1 Translational Dynamics</h3>
+<p>The translational motion is modeled by balancing the forces acting on the MAV body: (1) Actuator Thrust, (2) Gravity, (3) Aerodynamic Drag, and (4) External Contact Forces.</p>
+<p>The kinematic and dynamic differential equations are:
+$$ {}<em>I \dot{p} = {}_I v $$
+$$ {}_I \dot{v} = \frac{1}{m} R</em>{IB}(\eta) \left( \begin{bmatrix} 0 \ 0 \ U_4 \end{bmatrix} - K_{drag} {}_B v \right) - \begin{bmatrix} 0 \ 0 \ g \end{bmatrix} + \frac{1}{m} {}_I F^{ext} $$</p>
+<p><em>Explanation:</em> The thrust vector <span class="arithmatex">\(\begin{bmatrix} 0, 0, U_4 \end{bmatrix}^T\)</span> is generated purely along the body <span class="arithmatex">\(z\)</span>-axis. The drag is assumed to be linearly proportional to the body velocity <span class="arithmatex">\({}_B v\)</span>. The external force is added directly to the sum of forces and scaled by the inverse of the mass to yield linear acceleration.</p>
+<h3 id="32-rotational-dynamics">3.2 Rotational Dynamics</h3>
+<p>Since the actual motor commands are abstracted, the MAV's attitude response to high-level commands (<span class="arithmatex">\(\phi_{cmd}, \theta_{cmd}, \psi_{cmd}\)</span>) is modeled as a decoupled second-order system. For example, the rotational dynamics around the body <span class="arithmatex">\(x\)</span>-axis (roll) are approximated as:
+$$ \ddot{\phi} = \omega_{n,\phi}^2 (k_\phi \phi_{cmd} - \phi) - 2 \xi_\phi \omega_{n,\phi} \dot{\phi} + \frac{{}<em>B M_x^{ext}}{J</em>{xx}} $$</p>
+<p><em>Explanation:</em> This equation mimics a damped spring-mass system driven by an attitude command <span class="arithmatex">\(\phi_{cmd}\)</span>. The external torque <span class="arithmatex">\({}_B M_x^{ext}\)</span> acts as an unknown disturbance accelerating the rotation. The identical structure applies to pitch (<span class="arithmatex">\(\theta\)</span>) and yaw (<span class="arithmatex">\(\psi\)</span>) dynamics.</p>
+<h2 id="4-filter-formulation-extended-kalman-filter">4. Filter Formulation (Extended Kalman Filter)</h2>
+<p>An Extended Kalman Filter (EKF) is synthesized to estimate the external wrench online. </p>
+<h3 id="41-state-input-and-measurement-vectors">4.1 State, Input, and Measurement Vectors</h3>
+<p>Since the wrench dynamics are arbitrary, they are modeled as random walks driven by zero-mean white Gaussian noise. The system state is augmented to include these unknown variables.</p>
+<ul>
+<li><strong>State Vector</strong> <span class="arithmatex">\(x \in \mathbb{R}^{18 \times 1}\)</span>:
+    $$ x = \begin{bmatrix} {}_I p^T &amp; {}_I v^T &amp; \eta^T &amp; \dot{\eta}^T &amp; {}_I F^{ext,T} &amp; {}_B M^{ext,T} \end{bmatrix}^T $$</li>
+<li><strong>Input Vector</strong> <span class="arithmatex">\(u \in \mathbb{R}^{4 \times 1}\)</span>:
+    $$ u = \begin{bmatrix} \phi_{cmd} &amp; \theta_{cmd} &amp; \psi_{cmd} &amp; U_4 \end{bmatrix}^T $$
+    <em>(Note: Depending on the controller, <span class="arithmatex">\(U_4\)</span> can also be expressed as <span class="arithmatex">\(F_{cmd}\)</span>).</em></li>
+<li><strong>Measurement Vector</strong> <span class="arithmatex">\(z \in \mathbb{R}^{6 \times 1}\)</span>:
+    Assuming a Motion Capture System or onboard visual-inertial odometry provides direct pose measurements:
+    $$ z = \begin{bmatrix} {}_I p^T &amp; \eta^T \end{bmatrix}^T $$</li>
+</ul>
+<h3 id="42-estimation-steps">4.2 Estimation Steps</h3>
+<ol>
+<li><strong>Prediction:</strong> The EKF propagates the 18-dimensional state vector forward in time using the non-linear process models described in Section 3. The external forces and torques are propagated as constants (<span class="arithmatex">\({}_I \dot{F}^{ext} = 0\)</span>, <span class="arithmatex">\({}_B \dot{M}^{ext} = 0\)</span>) subjected only to process noise covariance <span class="arithmatex">\(Q\)</span>.</li>
+<li><strong>Jacobian Calculation:</strong> The EKF linearizes the continuous-time dynamics around the current state estimate to propagate the state covariance matrix <span class="arithmatex">\(P\)</span>.</li>
+<li><strong>Measurement Update:</strong> Upon receiving pose measurements <span class="arithmatex">\(z\)</span>, the Kalman Gain is computed, the state <span class="arithmatex">\(x\)</span> is corrected, and the covariance <span class="arithmatex">\(P\)</span> is updated. Through the dynamic coupling in the process model, errors in pose tracking actively correct the estimates of the unmeasured external forces and torques.</li>
+</ol>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../../../Code/cpt_simulation/" class="btn btn-neutral float-left" title="cpt_simulation"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../02_Full%20Model%20Wrench%20Estimation/" class="btn btn-neutral float-right" title="Full Model Wrench Estimation">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../../../Code/cpt_simulation/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../02_Full%20Model%20Wrench%20Estimation/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../../..";</script>
+    <script src="../../../js/theme_extra.js"></script>
+    <script src="../../../js/theme.js"></script>
+      <script src="../../../javascripts/mathjax.js"></script>
+      <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      <script src="../../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

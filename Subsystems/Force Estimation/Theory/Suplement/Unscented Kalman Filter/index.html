@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://.github.io/Subsystems/Force%20Estimation/Theory/Suplement/Unscented%20Kalman%20Filter/" />
+      <link rel="shortcut icon" href="../../../../../img/favicon.ico" />
+    <title>Unscented Kalman Filter (UKF) - CPT Project Documentation</title>
+    <link rel="stylesheet" href="../../../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Unscented Kalman Filter (UKF)";
+        var mkdocs_page_input_path = "Subsystems/Force Estimation/Theory/Suplement/Unscented Kalman Filter.md";
+        var mkdocs_page_url = "/Subsystems/Force%20Estimation/Theory/Suplement/Unscented%20Kalman%20Filter/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../../../.." class="icon icon-home"> CPT Project Documentation
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">Code</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../Code/cpt_bringup/">cpt_bringup</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../Code/cpt_control/">cpt_control</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../Code/cpt_simulation/">cpt_simulation</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Subsystems</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" >Force Estimation</a>
+    <ul class="current">
+                <li class="toctree-l2"><a class="reference internal" href="../../../01_Reduced%20Model%20Wrench%20Estimation/">Reduced Model Wrench Estimation</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../02_Full%20Model%20Wrench%20Estimation/">Full Model Wrench Estimation</a>
+                </li>
+                <li class="toctree-l2 current"><a class="reference internal current" >Theory</a>
+    <ul class="current">
+                <li class="toctree-l3 current"><a class="reference internal current" >Suplement</a>
+    <ul class="current">
+                <li class="toctree-l4"><a class="reference internal" href="../Extended%20Kalman%20Filter/">Extended Kalman Filter (EKF)</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../Kalman%20Filters/">Linear Kalman Filter (KF)</a>
+                </li>
+                <li class="toctree-l4 current"><a class="reference internal current" href="#">Unscented Kalman Filter (UKF)</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >State Estimation (VIO)</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../../State%20Estimation%20%28VIO%29/00_first_draft/">First Draft</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../../State%20Estimation%20%28VIO%29/01_theory_and_algorithms/">Visual Inertial Odometry (VIO) Theory &amp; Algorithms</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../../State%20Estimation%20%28VIO%29/02_hardware_selection/">Hardware Considerations for VIO</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../../State%20Estimation%20%28VIO%29/03_implementation_and_calibration/">VIO Implementation &amp; Calibration</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../..">CPT Project Documentation</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Subsystems</li>
+          <li class="breadcrumb-item">Force Estimation</li>
+          <li class="breadcrumb-item">Theory</li>
+          <li class="breadcrumb-item">Suplement</li>
+      <li class="breadcrumb-item active">Unscented Kalman Filter (UKF)</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="unscented-kalman-filter-ukf">Unscented Kalman Filter (UKF)</h1>
+<hr />
+<blockquote>
+<p>[!NOTE]
+<strong>DRAFT / AI-REFINED:</strong> This content uses AI for structure and refinement, but still requires additional manual editing.</p>
+</blockquote>
+<hr />
+<h2 id="1-overview-motivation">1. Overview &amp; Motivation</h2>
+<p>The Extended Kalman Filter (EKF) linearizes non-linear models using a first-order Taylor series (Jacobians). This approach suffers from significant truncation errors in highly non-linear systems, which can lead to filter divergence. Furthermore, deriving analytical Jacobians for complex physics models is mathematically tedious and error-prone.</p>
+<p>The Unscented Kalman Filter (UKF) eliminates the need for Jacobians entirely. Instead of approximating the <em>non-linear equations</em>, the UKF approximates the <em>probability distribution</em>. It uses the <strong>Unscented Transform (UT)</strong> to sample a minimal set of deterministic points (Sigma Points) around the mean. These points are propagated through the true non-linear functions, accurately capturing the posterior mean and covariance to the 3rd order for Gaussian distributions (compared to only 1st order for the EKF).</p>
+<hr />
+<h2 id="2-non-linear-system-models">2. Non-Linear System Models</h2>
+<p>The system models remain identical to those used in the EKF, represented by non-linear differentiable functions <span class="arithmatex">\(f\)</span> and <span class="arithmatex">\(h\)</span>:</p>
+<ul>
+<li><strong>Non-Linear Process Model:</strong></li>
+</ul>
+<div class="arithmatex">\[x_k = f(x_{k-1}, u_k) + w_k, \quad w_k \sim \mathcal{N}(0, Q)\]</div>
+<ul>
+<li><strong>Non-Linear Measurement Model:</strong></li>
+</ul>
+<div class="arithmatex">\[z_k = h(x_k) + v_k, \quad v_k \sim \mathcal{N}(0, R)\]</div>
+<hr />
+<h2 id="3-the-unscented-transform-sigma-points-weights">3. The Unscented Transform: Sigma Points &amp; Weights</h2>
+<p>To represent a state <span class="arithmatex">\(x\)</span> with dimension <span class="arithmatex">\(n\)</span>, mean <span class="arithmatex">\(\hat{x}\)</span>, and covariance <span class="arithmatex">\(P\)</span>, the UKF generates <span class="arithmatex">\(2n + 1\)</span> sigma points (<span class="arithmatex">\(\mathcal{X}^{(i)}\)</span>).</p>
+<h3 id="scaling-parameters">Scaling Parameters</h3>
+<ul>
+<li><span class="arithmatex">\(\alpha\)</span>: Determines the spread of the sigma points around the mean (typically <span class="arithmatex">\(10^{-4} \le \alpha \le 1\)</span>).</li>
+<li><span class="arithmatex">\(\kappa\)</span>: Secondary scaling parameter (usually set to <span class="arithmatex">\(0\)</span> or <span class="arithmatex">\(3-n\)</span>).</li>
+<li><span class="arithmatex">\(\beta\)</span>: Incorporates prior knowledge of the distribution (<span class="arithmatex">\(\beta = 2\)</span> is optimal for Gaussian distributions).</li>
+<li><span class="arithmatex">\(\lambda\)</span>: Composite scaling parameter defined as <span class="arithmatex">\(\lambda = \alpha^2(n + \kappa) - n\)</span>.</li>
+</ul>
+<h3 id="sigma-point-generation">Sigma Point Generation</h3>
+<p>The deterministic sigma points are generated using the matrix square root (typically implemented via <strong>Cholesky Decomposition</strong>):</p>
+<div class="arithmatex">\[\mathcal{X}^{(0)} = \hat{x}\]</div>
+<div class="arithmatex">\[\mathcal{X}^{(i)} = \hat{x} + \left( \sqrt{(n+\lambda)P} \right)_i \quad \text{for } i = 1 \dots n\]</div>
+<div class="arithmatex">\[\mathcal{X}^{(i)} = \hat{x} - \left( \sqrt{(n+\lambda)P} \right)_{i-n} \quad \text{for } i = n+1 \dots 2n\]</div>
+<p><em>(Note: <span class="arithmatex">\(\left( \sqrt{M} \right)_i\)</span> denotes the <span class="arithmatex">\(i\)</span>-th column of the matrix square root).</em></p>
+<h3 id="associated-weights">Associated Weights</h3>
+<p>Each sigma point has a weight for calculating the mean (<span class="arithmatex">\(W_m\)</span>) and a weight for the covariance (<span class="arithmatex">\(W_c\)</span>):</p>
+<div class="arithmatex">\[W_m^{(0)} = \frac{\lambda}{n+\lambda}\]</div>
+<div class="arithmatex">\[W_c^{(0)} = \frac{\lambda}{n+\lambda} + (1 - \alpha^2 + \beta)\]</div>
+<div class="arithmatex">\[W_m^{(i)} = W_c^{(i)} = \frac{1}{2(n+\lambda)} \quad \text{for } i = 1 \dots 2n\]</div>
+<hr />
+<h2 id="4-ukf-recursive-algorithm">4. UKF Recursive Algorithm</h2>
+<h3 id="step-1-predict-time-update">Step 1: Predict (Time Update)</h3>
+<p>First, generate sigma points <span class="arithmatex">\(\mathcal{X}_{k-1\vert{}k-1}\)</span> from the previous state estimate <span class="arithmatex">\(\hat{x}_{k-1\vert{}k-1}\)</span> and covariance <span class="arithmatex">\(P_{k-1\vert{}k-1}\)</span>.</p>
+<ul>
+<li><strong>Propagate Sigma Points through the Process Model:</strong></li>
+</ul>
+<div class="arithmatex">\[\mathcal{X}_{k\vert{}k-1}^{(i)} = f(\mathcal{X}_{k-1\vert{}k-1}^{(i)}, u_k)\]</div>
+<ul>
+<li><strong>Predicted (a priori) State Estimate:</strong></li>
+</ul>
+<div class="arithmatex">\[\hat{x}_{k\vert{}k-1} = \sum_{i=0}^{2n} W_m^{(i)} \mathcal{X}_{k\vert{}k-1}^{(i)}\]</div>
+<ul>
+<li><strong>Predicted (a priori) Error Covariance:</strong></li>
+</ul>
+<div class="arithmatex">\[P_{k\vert{}k-1} = \sum_{i=0}^{2n} W_c^{(i)} \left[ \mathcal{X}_{k\vert{}k-1}^{(i)} - \hat{x}_{k\vert{}k-1} \right] \left[ \mathcal{X}_{k\vert{}k-1}^{(i)} - \hat{x}_{k\vert{}k-1} \right]^T + Q\]</div>
+<h3 id="step-2-update-measurement-update">Step 2: Update (Measurement Update)</h3>
+<p>To capture the new distribution spread, <strong>redraw</strong> the sigma points <span class="arithmatex">\(\mathcal{X}_{k\vert{}k-1}\)</span> using the newly predicted mean <span class="arithmatex">\(\hat{x}_{k\vert{}k-1}\)</span> and covariance <span class="arithmatex">\(P_{k\vert{}k-1}\)</span>.</p>
+<ul>
+<li><strong>Propagate Sigma Points through the Measurement Model:</strong></li>
+</ul>
+<div class="arithmatex">\[\mathcal{Z}_{k\vert{}k-1}^{(i)} = h(\mathcal{X}_{k\vert{}k-1}^{(i)})\]</div>
+<ul>
+<li><strong>Predicted Measurement Mean:</strong></li>
+</ul>
+<div class="arithmatex">\[\hat{z}_k = \sum_{i=0}^{2n} W_m^{(i)} \mathcal{Z}_{k\vert{}k-1}^{(i)}\]</div>
+<ul>
+<li><strong>Innovation Covariance:</strong></li>
+</ul>
+<div class="arithmatex">\[S_k = \sum_{i=0}^{2n} W_c^{(i)} \left[ \mathcal{Z}_{k\vert{}k-1}^{(i)} - \hat{z}_k \right] \left[ \mathcal{Z}_{k\vert{}k-1}^{(i)} - \hat{z}_k \right]^T + R\]</div>
+<ul>
+<li><strong>Cross-Covariance Matrix (State-Measurement correlation):</strong></li>
+</ul>
+<div class="arithmatex">\[P_{xz} = \sum_{i=0}^{2n} W_c^{(i)} \left[ \mathcal{X}_{k\vert{}k-1}^{(i)} - \hat{x}_{k\vert{}k-1} \right] \left[ \mathcal{Z}_{k\vert{}k-1}^{(i)} - \hat{z}_k \right]^T\]</div>
+<ul>
+<li><strong>Optimal Kalman Gain:</strong></li>
+</ul>
+<div class="arithmatex">\[K_k = P_{xz} S_k^{-1}\]</div>
+<ul>
+<li><strong>Updated (a posteriori) State Estimate:</strong></li>
+</ul>
+<div class="arithmatex">\[\hat{x}_{k\vert{}k} = \hat{x}_{k\vert{}k-1} + K_k(z_k - \hat{z}_k)\]</div>
+<ul>
+<li><strong>Updated (a posteriori) Error Covariance:</strong></li>
+</ul>
+<div class="arithmatex">\[P_{k\vert{}k} = P_{k\vert{}k-1} - K_k S_k K_k^T\]</div>
+<hr />
+<h2 id="5-production-engineering-considerations">5. Production Engineering Considerations</h2>
+<ol>
+<li><strong>Cholesky Decomposition Failure:</strong> The matrix <span class="arithmatex">\((n+\lambda)P\)</span> must be positive definite to compute the matrix square root via Cholesky decomposition. Numerical instability during the covariance update (<span class="arithmatex">\(P_{k\vert{}k}\)</span>) can cause the matrix to lose positive-definiteness, crashing the algorithm. Implement numerical safe-guards, such as forcing symmetry (<span class="arithmatex">\(P = \frac{P + P^T}{2}\)</span>) and adding a small jitter matrix (<span class="arithmatex">\(\epsilon I\)</span>) if the decomposition fails.</li>
+<li><strong>Computational Cost:</strong> The UKF requires passing <span class="arithmatex">\(2n+1\)</span> points through the non-linear models. If <span class="arithmatex">\(n\)</span> (state dimension) is extremely large, the computational overhead can exceed that of the EKF. However, because Jacobians are not required, the UKF is highly modular—you can swap out the functions <span class="arithmatex">\(f\)</span> and <span class="arithmatex">\(h\)</span> without rewriting any calculus.</li>
+<li><strong>Augmented UKF vs. Standard UKF:</strong> The formulation above assumes additive process and measurement noise. If noise is non-additive (e.g., noise that scales multiplicatively with the state), the state vector must be <strong>augmented</strong> to include the noise variables directly before generating the sigma points, increasing the dimensionality of the UT.</li>
+</ol>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../Kalman%20Filters/" class="btn btn-neutral float-left" title="Linear Kalman Filter (KF)"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../../../../State%20Estimation%20%28VIO%29/00_first_draft/" class="btn btn-neutral float-right" title="First Draft">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../Kalman%20Filters/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../../../../State%20Estimation%20%28VIO%29/00_first_draft/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../../../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../../../../..";</script>
+    <script src="../../../../../js/theme_extra.js"></script>
+    <script src="../../../../../js/theme.js"></script>
+      <script src="../../../../../javascripts/mathjax.js"></script>
+      <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      <script src="../../../../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

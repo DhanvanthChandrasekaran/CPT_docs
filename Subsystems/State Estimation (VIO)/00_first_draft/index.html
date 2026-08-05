@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://.github.io/Subsystems/State%20Estimation%20%28VIO%29/00_first_draft/" />
+      <link rel="shortcut icon" href="../../../img/favicon.ico" />
+    <title>First Draft - CPT Project Documentation</title>
+    <link rel="stylesheet" href="../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "First Draft";
+        var mkdocs_page_input_path = "Subsystems/State Estimation (VIO)/00_first_draft.md";
+        var mkdocs_page_url = "/Subsystems/State%20Estimation%20%28VIO%29/00_first_draft/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../.." class="icon icon-home"> CPT Project Documentation
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">Code</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../Code/cpt_bringup/">cpt_bringup</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../Code/cpt_control/">cpt_control</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../Code/cpt_simulation/">cpt_simulation</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Subsystems</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" >Force Estimation</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../Force%20Estimation/01_Reduced%20Model%20Wrench%20Estimation/">Reduced Model Wrench Estimation</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../Force%20Estimation/02_Full%20Model%20Wrench%20Estimation/">Full Model Wrench Estimation</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Theory</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" >Suplement</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../Force%20Estimation/Theory/Suplement/Extended%20Kalman%20Filter/">Extended Kalman Filter (EKF)</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../Force%20Estimation/Theory/Suplement/Kalman%20Filters/">Linear Kalman Filter (KF)</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../Force%20Estimation/Theory/Suplement/Unscented%20Kalman%20Filter/">Unscented Kalman Filter (UKF)</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" >State Estimation (VIO)</a>
+    <ul class="current">
+                <li class="toctree-l2 current"><a class="reference internal current" href="#">First Draft</a>
+    <ul class="current">
+    <li class="toctree-l3"><a class="reference internal" href="#visual-inertial-odometry-vio">Visual Inertial Odometry (VIO)</a>
+    </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../01_theory_and_algorithms/">Visual Inertial Odometry (VIO) Theory &amp; Algorithms</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../02_hardware_selection/">Hardware Considerations for VIO</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../03_implementation_and_calibration/">VIO Implementation &amp; Calibration</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../..">CPT Project Documentation</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Subsystems</li>
+          <li class="breadcrumb-item">State Estimation (VIO)</li>
+      <li class="breadcrumb-item active">First Draft</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="first-draft">First Draft</h1>
+<hr />
+<blockquote>
+<p>[!NOTE]
+This a rough first draft with unstructured thoughts and experience during this project.
+Please ignore all the gramatical and spelling mistakes :)</p>
+</blockquote>
+<hr />
+<h2 id="visual-inertial-odometry-vio">Visual Inertial Odometry (VIO)</h2>
+<p>Visual inertial odometry uses the camera footage and the IMU measurements to track the trajectory of the camera over time. </p>
+<p>There are multiple types of visual inertial odometry that can be done.
+we don't strictly need visual inertial odometry, even visual odometry without the IMU can work. but that would require more than 1 camera to fix the scale ambiguity. Scale ambiguity comes with a monocular camera setup where we can track the movement. We can get the shape of the trajectory but we don't know the scale of the trajectory, like what does 1 unit in the odometry output mean in real world measurements. 
+Along with this because we are using IMU data we can actually get a much faster update rate. Generally cameras are run at 30fps or lower or sometimes hight (with larger computational cost) but the IMU can give a very simple data efficient and computationally less expensive way to get a much higher pose estimate with hundereds of hertz of update rate without massively increasing the computational complexity.</p>
+<p>there is Monocular VIO, and Stereo VIO, It is just as it sounds VIO using 1 camera and IMU is monocular VIO and using 2 cameras and 1 IMU is stereo VIO. </p>
+<p>Important hardware considerations for VIO
+The camera should have a global shutter, especially if the trajectory can be rapid and quick (like in a drone) so that the rolling shutter distortion does not mess up the pose calculations
+The camera and IMU data must be in sync, and in sync doesn't mean they both have to come at the same time (it won't be possible because both run at different frequency (camera at say 30fps) and Imu at more like 200Hz). In sync means the timestamp on both the camera and the IMU must be from the same clock. That is I can't put a timestamp on the data once my Compute unit gets the frames or the IMU data, I need timestamps of when the IMU data or camera frame was captured and the milliseconds matter here. Usually the IMU should be fine and quick, but the camera actually might have an added latency of a couple of milliseconds due to the internal processing overhead on the camera itself, that is why we can't time stamp it after getting the data, For this the cameras and IMU has external trigger pins that can help sync the clocks of both the devices. 
+A large resolution camera is not necessary and might actually be very bad for VIO in compute constraint systems due to the shear computation that would be required to find and match features in a large resolution frame.
+A native black and white camera is prefered because the VIO feature tracking does not depend on the colour of the features, it only calculates them based on the luminence and a native black and white camera would have a bigger light capture area per pixel for the same size sensor compared to a colour camera because in a colour camera each pixel have to be further divided into RGB spots hence reducing the light capture area, this would reduce the dynamic range of the camera and also increase the sensor noise. hence native BW cameras are better.</p>
+<p>Calibration:
+There are important paremeters that have to calibrated for the the camera and IMU.
+Camera Calibration: (finding the intrinsic parameters of the camera):
+There are multiple camera models to look out for, and each of them are best suited for certain types of cameras, The camera calibration is set to find the distortion parameters and the physical parameters like focal length. 
+Since the camera I have is a stereo depth camera, I also calibrated the two cameras. This calibration find the extrinsic parameters of the two cameras that is the relative orientation and position of each of the cameras</p>
+<p>IMU Calibration:
+IMU calibration is not strictly necessary, we could just take the intrinsic parameters given by the manufacturer. but to get the most optimal performance we can do a manual IMU calibration. this involves collecting a long recording of the IMU at the particular frequency we'll be quiring the data while perferoming VIO, this recording should be at least a couple of hours long, 12 hours is a good amount of data. Then we run it through something called Allen Varience to find out the intrinsic parameters of the IMU. This gives a much more accurate picture of the IMU and this will be important to us because the surity in uncertainity will help us decide how well we should trust our IMU during the VIO state estimation.</p>
+<p>Camera IMU calibration:
+We also need to perform a camera IMU calibration. This is where we fidn out the extrinsic parameters of the IMU and the camera, that is the relative positioin and orientation of the IMU and Cameras, this is important. without this there would be slight offsets in the IMU and camera data that we can't account for because both of them are not on the same physical space. </p>
+<p>The steps followed generally depend on what type of VIO implementation that is done. The two methods are Filtering based and Optimization Based.
+Filtering based methods were really simple to implement but they don't scale well with the number of features tracked that is their computational complexity increases by O(n^3). Filtering based methods are generally not as accurate as optimization based methods. In filtering based methods once we predict the next state we do not change the later as new information comes in. So whatever error we had before gets propegated to the new state. In optimization based techniques we optimize of a receding horizon of previous estimates, this means even if a prediction was wrong before it can be corrected as new information comes in. Hence optimization methods are more acurate but they consume a lot more computational power. There was a new filtering based apprached called MSCKF which reduced the filtering complexity to O(n). This was because the MSCKF state vector does not actually keep track of the feature positons in each frame. instead they use some sort of constraint(not sure here), which reduces the computational complexity.</p>
+<p>Understanding a pure VO case is important for understanding VIO because VIO just uses VO estimates and fuses it with IMU estimates
+This entire folowing section is based on the following two papers
+Visual Odometry Part I - The First 30 Years and Fundametals
+Visual Odometry Part II - Matching, Robustness, Optimization, and Application</p>
+<p>For greater detail look into these papers. The following is just a quick summary of these 2 papers. </p>
+<p>Hence in VO the process to get the estimates we follow the following steps</p>
+<p>-Feature Detection on the images</p>
+<p>-Feature Matching (or Tracking)</p>
+<p>-Motion Estimation (2D to 2D, 3D to 3D, 3D to 2D)</p>
+<p>-Local Optimization</p>
+<p>The Feature Detection itself can be done using many methods like ORB, SIFT, or direct tracking where the instead of detecting corners or somethign we just take features beased on their distinct luminance and this works really fast over a short span and does not really track a 3d feature from all angles especially when lighting changes. But it is extremely fast though</p>
+<p>Feature Matching or Tracking - Feature Matching would be done by creating a descriptor for every single feature and then comparing the descriptors of features across frames and see if there is a close enough match, that is two descriptors from two different frames have a close enough to be considered similar (The close enough is a knob that we can dial in for our use case). The descriptors can be a floating point number or a vector, or it could be binary which is the fastest. 
+Feature tracking finds the features in the first frame and then instead of seperately finding features on the next frame and then matching the features like feature matching. It would try and find the same features in the next frame that it tracked in the previous frame, and as we move along we would probably loose a lot of features hense a portion of new features will start to be detected if a lot of known features are lost. This works best if the successive frames have enough amount of overlap. one popular method is the KLT tracker </p>
+<p><code>TODO</code> </p>
+<p>A breif about and RANSAC and outlier rejection
+tell about the Mostion estimation, a brief of about 2D to 2D, 3D to 3D, 3D to 2D
+A Brief obout local Optimzation.</p>
+<p>Available Varients of VIO implementation:
+ROVIO
+VINS-Mono/VINS-Fusion
+OpenVINS
+TODO - give a brief about all of these implementations</p>
+<p>I choose OpenVINS, due to its significantly less computational cost while running comparted to something like VINS-Mono,
+At the same time I also wanted to use ROS2 as my software framework, and only OpenVINS had both ROS2 and ROS1 versians and ROS1 already reached endoflife in May of 2025 hence there is no more support for that framework.</p>
+<p>What I did (i have to elobrate the following)
+I calibrated the cameras and IMU using Kalibr tool
+I did not yet do a proper IMU calibration alone and the imu parameters are taken from the manufacturer and so far the tracking has been really solid. 
+There are much much more details about the implementation that I have. and I will write that in due time.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../../Force%20Estimation/Theory/Suplement/Unscented%20Kalman%20Filter/" class="btn btn-neutral float-left" title="Unscented Kalman Filter (UKF)"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../01_theory_and_algorithms/" class="btn btn-neutral float-right" title="Visual Inertial Odometry (VIO) Theory &amp; Algorithms">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../../Force%20Estimation/Theory/Suplement/Unscented%20Kalman%20Filter/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../01_theory_and_algorithms/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../../..";</script>
+    <script src="../../../js/theme_extra.js"></script>
+    <script src="../../../js/theme.js"></script>
+      <script src="../../../javascripts/mathjax.js"></script>
+      <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      <script src="../../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

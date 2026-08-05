@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://.github.io/Subsystems/State%20Estimation%20%28VIO%29/03_implementation_and_calibration/" />
+      <link rel="shortcut icon" href="../../../img/favicon.ico" />
+    <title>VIO Implementation &amp; Calibration - CPT Project Documentation</title>
+    <link rel="stylesheet" href="../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "VIO Implementation \u0026amp; Calibration";
+        var mkdocs_page_input_path = "Subsystems/State Estimation (VIO)/03_implementation_and_calibration.md";
+        var mkdocs_page_url = "/Subsystems/State%20Estimation%20%28VIO%29/03_implementation_and_calibration/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../.." class="icon icon-home"> CPT Project Documentation
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">Code</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../Code/cpt_bringup/">cpt_bringup</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../Code/cpt_control/">cpt_control</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../Code/cpt_simulation/">cpt_simulation</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Subsystems</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" >Force Estimation</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../Force%20Estimation/01_Reduced%20Model%20Wrench%20Estimation/">Reduced Model Wrench Estimation</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../Force%20Estimation/02_Full%20Model%20Wrench%20Estimation/">Full Model Wrench Estimation</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Theory</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" >Suplement</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="../../Force%20Estimation/Theory/Suplement/Extended%20Kalman%20Filter/">Extended Kalman Filter (EKF)</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../Force%20Estimation/Theory/Suplement/Kalman%20Filters/">Linear Kalman Filter (KF)</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../../Force%20Estimation/Theory/Suplement/Unscented%20Kalman%20Filter/">Unscented Kalman Filter (UKF)</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" >State Estimation (VIO)</a>
+    <ul class="current">
+                <li class="toctree-l2"><a class="reference internal" href="../00_first_draft/">First Draft</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../01_theory_and_algorithms/">Visual Inertial Odometry (VIO) Theory &amp; Algorithms</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../02_hardware_selection/">Hardware Considerations for VIO</a>
+                </li>
+                <li class="toctree-l2 current"><a class="reference internal current" href="#">VIO Implementation &amp; Calibration</a>
+    <ul class="current">
+    <li class="toctree-l3"><a class="reference internal" href="#available-variants-of-vio-implementations">Available Variants of VIO Implementations</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#1-openvins">1. OpenVINS</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#2-vins-mono-vins-fusion">2. VINS-Mono &amp; VINS-Fusion</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#3-rovio-robust-visual-inertial-odometry">3. ROVIO (Robust Visual Inertial Odometry)</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#4-svo-20-semi-direct-visual-odometry">4. SVO 2.0 (Semi-Direct Visual Odometry)</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#5-orb-slam3">5. ORB-SLAM3</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#6-okvis-open-keyframe-based-visual-inertial-slam">6. OKVIS (Open Keyframe-based Visual-Inertial SLAM)</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#7-nvidia-isaac-ros-visual-slam-cuvslam">7. NVIDIA Isaac ROS Visual SLAM (cuVSLAM)</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#framework-selection">Framework Selection</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#calibration-process-overview">Calibration Process Overview</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#camera-calibration-intrinsics">Camera Calibration (Intrinsics)</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#camera-imu-calibration-extrinsics">Camera-IMU Calibration (Extrinsics)</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#imu-calibration-intrinsics">IMU Calibration (Intrinsics)</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#calibration-process-kalibr">Calibration Process (Kalibr)</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#1-preparation-and-prerequisites">1. Preparation and Prerequisites</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#2-imu-intrinsics-allan-variance">2. IMU Intrinsics (Allan Variance)</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#3-stereo-camera-intrinsics-extrinsics">3. Stereo Camera Intrinsics &amp; Extrinsics</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#4-camera-imu-spatiotemporal-extrinsics">4. Camera-IMU Spatiotemporal Extrinsics</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../..">CPT Project Documentation</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Subsystems</li>
+          <li class="breadcrumb-item">State Estimation (VIO)</li>
+      <li class="breadcrumb-item active">VIO Implementation &amp; Calibration</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="vio-implementation-calibration">VIO Implementation &amp; Calibration</h1>
+<hr />
+<blockquote>
+<p>[!NOTE]
+<strong>DRAFT / AI-REFINED:</strong> This content uses AI for structure and refinement, but still requires additional manual editing.</p>
+</blockquote>
+<hr />
+<h2 id="available-variants-of-vio-implementations">Available Variants of VIO Implementations</h2>
+<p>The open-source robotics community has produced several highly robust VIO frameworks. They generally fall into one of two camps—Filtering or Optimization—and handle image data either via Features (extracting descriptors) or Direct methods (tracking raw pixel intensities). </p>
+<p>Below is a breakdown of the most prominent implementations available today.</p>
+<h3 id="1-openvins">1. OpenVINS</h3>
+<ul>
+<li><strong>Source:</strong> Robot Perception and Navigation Group (RPNG) at the University of Delaware.</li>
+<li><strong>Approach:</strong> Filtering-based (Multi-State Constraint Kalman Filter / MSCKF).</li>
+<li><strong>Unique Features:</strong> OpenVINS is an extremely lightweight, on-manifold Extended Kalman Filter (EKF). Because it uses the MSCKF formulation, it achieves <span class="arithmatex">\(O(n)\)</span> complexity, making it computationally cheap while maintaining high accuracy. A major standout feature is its modular state system, which allows for out-of-the-box online spatial and temporal calibration (it can calculate the camera-IMU offsets on the fly if they aren't perfectly known). It scales to an arbitrary number of cameras and natively supports both ROS 1 and ROS 2, making it highly attractive for modern, compute-constrained drone platforms.</li>
+</ul>
+<h3 id="2-vins-mono-vins-fusion">2. VINS-Mono &amp; VINS-Fusion</h3>
+<ul>
+<li><strong>Source:</strong> Aerial Robotics Group at the Hong Kong University of Science and Technology (HKUST).</li>
+<li><strong>Approach:</strong> Optimization-based (Sliding Window Bundle Adjustment / Factor Graph).</li>
+<li><strong>Unique Features:</strong> VINS-Mono is widely considered the industry baseline for optimization-based VIO. It tightly couples visual and inertial measurements by utilizing <strong>IMU pre-integration</strong> on the <span class="arithmatex">\(SO(3)\)</span> manifold to constrain the optimization solver (usually Ceres Solver). It includes a robust loop closure module (using DBoW2 bag-of-words) to eliminate long-term drift. <strong>VINS-Fusion</strong> is the successor, expanding the architecture to support stereo cameras, stereo+IMU, and even GPS fusion. While highly accurate, the non-linear optimization demands significant CPU resources, which can bottleneck edge computers.</li>
+</ul>
+<h3 id="3-rovio-robust-visual-inertial-odometry">3. ROVIO (Robust Visual Inertial Odometry)</h3>
+<ul>
+<li><strong>Source:</strong> Autonomous Systems Lab (ASL) at ETH Zurich.</li>
+<li><strong>Approach:</strong> Direct, Filtering-based (EKF).</li>
+<li><strong>Unique Features:</strong> Unlike most EKFs that extract abstract corners (like ORB or SIFT), ROVIO operates directly on pixel intensity patches. It tracks the photometric error of these patches directly within the filter's state vector. By bypassing traditional feature descriptors, ROVIO is extraordinarily robust to extreme motion blur and poorly textured environments—common scenarios for aggressive drone flight. It is highly efficient but functions strictly as a monocular system and does not support loop closure.</li>
+</ul>
+<h3 id="4-svo-20-semi-direct-visual-odometry">4. SVO 2.0 (Semi-Direct Visual Odometry)</h3>
+<ul>
+<li><strong>Source:</strong> Robotics and Perception Group (RPG) at the University of Zurich (UZH).</li>
+<li><strong>Approach:</strong> Semi-Direct Optimization.</li>
+<li><strong>Unique Features:</strong> SVO bridges the gap between direct and feature-based methods. It uses <em>direct</em> pixel intensity alignment for ultra-fast frame-to-frame motion estimation, but relies on <em>feature-based</em> methods for the joint optimization of structure and motion. This architecture decouples the heavy feature extraction from the tracking thread, allowing SVO to run at blinding speeds (up to 400 Hz on standard laptops or easily real-time on embedded processors). It is heavily utilized in micro-aerial vehicles (MAVs) where high-frequency pose updates and minimal CPU overhead are critical.</li>
+</ul>
+<h3 id="5-orb-slam3">5. ORB-SLAM3</h3>
+<ul>
+<li><strong>Source:</strong> University of Zaragoza.</li>
+<li><strong>Approach:</strong> Optimization-based (Factor Graph with Maximum A Posteriori estimation).</li>
+<li><strong>Unique Features:</strong> ORB-SLAM3 is an absolute powerhouse. It is a purely feature-based system (using ORB descriptors) that supports monocular, stereo, and RGB-D cameras with or without an IMU. Its standout feature is its <strong>multi-map system</strong>: if the camera is blinded or tracking is completely lost, it simply starts a new map. When it recognizes a previous location, it seamlessly merges the maps together and optimizes the entire trajectory. It provides state-of-the-art accuracy but requires substantial memory and compute.</li>
+</ul>
+<h3 id="6-okvis-open-keyframe-based-visual-inertial-slam">6. OKVIS (Open Keyframe-based Visual-Inertial SLAM)</h3>
+<ul>
+<li><strong>Source:</strong> Imperial College London / ETH Zurich.</li>
+<li><strong>Approach:</strong> Optimization-based (Keyframe Sliding Window).</li>
+<li><strong>Unique Features:</strong> OKVIS is one of the earliest pioneers of tight visual-inertial non-linear optimization. It tightly couples visual reprojection errors (using BRISK descriptors) and IMU error terms into a single cost function. While slightly older than VINS or ORB-SLAM3, its architecture heavily influenced modern optimization-based systems and remains a highly reliable benchmark for keyframe-based VIO.</li>
+</ul>
+<h3 id="7-nvidia-isaac-ros-visual-slam-cuvslam">7. NVIDIA Isaac ROS Visual SLAM (cuVSLAM)</h3>
+<ul>
+<li><strong>Source:</strong> NVIDIA.</li>
+<li><strong>Approach:</strong> GPU-Accelerated Optimization-based (Pose Graph).</li>
+<li><strong>Unique Features:</strong> Built on top of the proprietary <code>cuVSLAM</code> library, this is a highly optimized, hardware-accelerated package designed specifically for NVIDIA GPUs and Jetson platforms (like the Orin series). It shifts the heavy lifting of feature extraction, matching, and non-linear least squares optimization (via <code>cuNLS</code>) directly to the GPU. It maintains a pose graph for landmarks and automatically triggers loop closures. One of its most striking features is its scalability: it natively supports up to 32 cameras (16 stereo pairs) simultaneously, drastically improving robustness in featureless environments. Furthermore, it handles parameter tuning entirely under the hood, adapting to the environment without requiring manual algorithmic adjustments.</li>
+</ul>
+<hr />
+<h2 id="framework-selection">Framework Selection</h2>
+<p>There are several popular variants of VIO implementations available, including ROVIO, VINS-Mono, VINS-Fusion, and OpenVINS. </p>
+<p><strong>Our Choice: OpenVINS</strong>
+We selected OpenVINS for this project due to two main factors:</p>
+<ol>
+<li><strong>Computational Efficiency:</strong> It has a significantly lower computational cost during runtime compared to optimization-heavy frameworks like VINS-Mono.</li>
+<li><strong>Software Ecosystem:</strong> Our software framework is ROS 2. OpenVINS natively supports both ROS 1 and ROS 2, whereas many legacy VIO systems rely on ROS 1 (which reached End-of-Life in May 2025).</li>
+</ol>
+<hr />
+<h2 id="calibration-process-overview">Calibration Process Overview</h2>
+<p>Precise calibration of the camera and IMU is required for accurate state estimation.</p>
+<h3 id="camera-calibration-intrinsics">Camera Calibration (Intrinsics)</h3>
+<p>Camera calibration finds the physical parameters (like focal length) and distortion parameters. Different camera models are best suited for different types of lenses. Because our system uses a stereo depth camera, both lenses were calibrated.</p>
+<h3 id="camera-imu-calibration-extrinsics">Camera-IMU Calibration (Extrinsics)</h3>
+<p>This process finds the exact relative position and orientation of the IMU and the cameras. Without this, slight physical offsets between the sensors will introduce errors in the data fusion that the algorithm cannot account for. 
+*   <em>Implementation:</em> Both camera intrinsics and camera-IMU extrinsics were calibrated using the <strong>Kalibr</strong> tool. <em>(TODO: Elaborate on exact Kalibr execution steps).</em></p>
+<h3 id="imu-calibration-intrinsics">IMU Calibration (Intrinsics)</h3>
+<p>While it is possible to use the manufacturer's default intrinsic parameters for the IMU, a manual calibration yields optimal performance. 
+*   <em>Methodology:</em> This involves collecting a static IMU recording for at least 12 hours at the operating frequency. This data is run through <strong>Allan Variance</strong> to find the exact noise parameters (random walk, bias instability) of the sensor. 
+*   <em>Importance:</em> Understanding this uncertainty tells the VIO algorithm exactly how much it should "trust" the IMU predictions versus the visual updates.
+*   <em>Current Status:</em> A rigorous Allan Variance calibration is pending. Currently, we are using the manufacturer's provided IMU parameters, and tracking has remained highly solid.</p>
+<hr />
+<h2 id="calibration-process-kalibr">Calibration Process (Kalibr)</h2>
+<p>Precise calibration of the camera and IMU is required for accurate state estimation. We use the <strong>Kalibr visual-inertial calibration toolbox</strong>, which solves for the intrinsic parameters, the spatial transformations (extrinsics), and the temporal offsets between the sensors. The workflow is executed in four sequential phases:</p>
+<h3 id="1-preparation-and-prerequisites">1. Preparation and Prerequisites</h3>
+<ul>
+<li><strong>Calibration Target:</strong> We use an <strong>AprilGrid</strong> instead of a standard checkerboard. AprilGrids are robust to partial occlusions, meaning the tracking won't fail if the camera only sees a portion of the board during tight rotational movements.</li>
+<li><strong>Target Configuration:</strong> A <code>target.yaml</code> file is defined containing the physical dimensions of the tags and the exact spacing between them. </li>
+<li><strong>Data Collection:</strong> All sensor data is recorded into ROS <code>.bag</code> files. It is critical that the stereo images are recorded in grayscale and that the IMU publishes raw, unfiltered acceleration and angular velocity data at its maximum frequency.</li>
+</ul>
+<h3 id="2-imu-intrinsics-allan-variance">2. IMU Intrinsics (Allan Variance)</h3>
+<p>Before calibrating the cameras, we must define the IMU's underlying noise characteristics.
+*   <strong>Data Collection:</strong> The sensor rig is left completely stationary for an extended period (typically 2 to 12 hours) while recording the IMU topic. 
+*   <strong>Processing:</strong> The static data is processed using an Allan Variance tool (e.g., <code>imu_utils</code> or <code>allan_variance_ros</code>). 
+*   <strong>Output:</strong> This generates an <code>imu.yaml</code> file containing the <strong>White Noise Density</strong> and <strong>Random Walk</strong> values for both the accelerometer and gyroscope. These parameters dictate how much OpenVINS will trust the IMU predictions between visual updates.</p>
+<h3 id="3-stereo-camera-intrinsics-extrinsics">3. Stereo Camera Intrinsics &amp; Extrinsics</h3>
+<p>This step calculates the focal lengths, principal points, and distortion parameters for both cameras, alongside the exact 3D transformation (baseline) between the left and right lenses.
+*   <strong>Data Collection:</strong> We record a ROS bag while slowly moving the stereo camera in front of the AprilGrid. The motion must be smooth to avoid motion blur, ensuring the grid is viewed from multiple angles, distances, and orientations.
+*   <strong>Execution:</strong> We run the <code>kalibr_calibrate_cameras</code> tool, passing in the bag file, the ROS topics for both cameras, the camera model (e.g., <code>pinhole-radtan</code>), and the <code>target.yaml</code>.
+*   <strong>Output:</strong> Kalibr minimizes the reprojection error and outputs a <code>camchain.yaml</code> file containing the intrinsics for both cameras and their relative spatial relationship.</p>
+<h3 id="4-camera-imu-spatiotemporal-extrinsics">4. Camera-IMU Spatiotemporal Extrinsics</h3>
+<p>This final step calculates the rigid 6-DOF transformation between the IMU and the camera system, as well as the exact time delay (temporal offset) between their data streams.
+*   <strong>Data Collection:</strong> A new ROS bag is recorded. This time, the motion must aggressively excite all 3 axes of the IMU (both translation and rotation) while keeping the AprilGrid in the camera's field of view. This requires a careful physical balance: moving fast enough to register strong IMU readings, but smooth enough to avoid heavy camera motion blur.
+*   <strong>Execution:</strong> We run the <code>kalibr_calibrate_imu_camera</code> tool. This requires all previously generated files: the dynamic bag file, the <code>camchain.yaml</code>, the <code>imu.yaml</code>, and the <code>target.yaml</code>.
+*   <strong>Output:</strong> Kalibr performs a batch optimization using continuous-time splines to align the IMU motion with the visual motion. It generates a comprehensive <code>camchain-imucam.yaml</code> containing the final extrinsics and time offsets, which is directly ingested by OpenVINS.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../02_hardware_selection/" class="btn btn-neutral float-left" title="Hardware Considerations for VIO"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../02_hardware_selection/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+  </span>
+</div>
+    <script src="../../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../../..";</script>
+    <script src="../../../js/theme_extra.js"></script>
+    <script src="../../../js/theme.js"></script>
+      <script src="../../../javascripts/mathjax.js"></script>
+      <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      <script src="../../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

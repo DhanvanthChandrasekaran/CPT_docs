@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://.github.io/Subsystems/Force%20Estimation/Theory/Suplement/Kalman%20Filters/" />
+      <link rel="shortcut icon" href="../../../../../img/favicon.ico" />
+    <title>Linear Kalman Filter (KF) - CPT Project Documentation</title>
+    <link rel="stylesheet" href="../../../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Linear Kalman Filter (KF)";
+        var mkdocs_page_input_path = "Subsystems/Force Estimation/Theory/Suplement/Kalman Filters.md";
+        var mkdocs_page_url = "/Subsystems/Force%20Estimation/Theory/Suplement/Kalman%20Filters/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../../../.." class="icon icon-home"> CPT Project Documentation
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">Code</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../Code/cpt_bringup/">cpt_bringup</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../Code/cpt_control/">cpt_control</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../Code/cpt_simulation/">cpt_simulation</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Subsystems</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" >Force Estimation</a>
+    <ul class="current">
+                <li class="toctree-l2"><a class="reference internal" href="../../../01_Reduced%20Model%20Wrench%20Estimation/">Reduced Model Wrench Estimation</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../02_Full%20Model%20Wrench%20Estimation/">Full Model Wrench Estimation</a>
+                </li>
+                <li class="toctree-l2 current"><a class="reference internal current" >Theory</a>
+    <ul class="current">
+                <li class="toctree-l3 current"><a class="reference internal current" >Suplement</a>
+    <ul class="current">
+                <li class="toctree-l4"><a class="reference internal" href="../Extended%20Kalman%20Filter/">Extended Kalman Filter (EKF)</a>
+                </li>
+                <li class="toctree-l4 current"><a class="reference internal current" href="#">Linear Kalman Filter (KF)</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="../Unscented%20Kalman%20Filter/">Unscented Kalman Filter (UKF)</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >State Estimation (VIO)</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../../State%20Estimation%20%28VIO%29/00_first_draft/">First Draft</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../../State%20Estimation%20%28VIO%29/01_theory_and_algorithms/">Visual Inertial Odometry (VIO) Theory &amp; Algorithms</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../../State%20Estimation%20%28VIO%29/02_hardware_selection/">Hardware Considerations for VIO</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../../State%20Estimation%20%28VIO%29/03_implementation_and_calibration/">VIO Implementation &amp; Calibration</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../..">CPT Project Documentation</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Subsystems</li>
+          <li class="breadcrumb-item">Force Estimation</li>
+          <li class="breadcrumb-item">Theory</li>
+          <li class="breadcrumb-item">Suplement</li>
+      <li class="breadcrumb-item active">Linear Kalman Filter (KF)</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="linear-kalman-filter-kf">Linear Kalman Filter (KF)</h1>
+<hr />
+<blockquote>
+<p>[!NOTE]
+<strong>DRAFT / AI-REFINED:</strong> This content uses AI for structure and refinement, but still requires additional manual editing.</p>
+</blockquote>
+<hr />
+<h2 id="1-overview-core-assumptions">1. Overview &amp; Core Assumptions</h2>
+<p>The linear discrete-time Kalman Filter is an optimal recursive estimator that minimizes the mean squared error of the state estimate for linear dynamical systems. To guarantee optimality, the filter relies on strict mathematical and statistical foundations:</p>
+<ol>
+<li><strong>System Linearity:</strong> The evolution of the system state and the measurement mapping must be linear functions (or linearized via an Extended Kalman Filter).</li>
+<li><strong>Gaussian Noise:</strong> Both the process noise (<span class="arithmatex">\(w_k\)</span>) and measurement noise (<span class="arithmatex">\(v_k\)</span>) are assumed to be independent, white, zero-mean Gaussian random processes.</li>
+<li><strong>Uncorrelated Noise:</strong> The process and measurement noise sequences are mutually uncorrelated across all time steps (<span class="arithmatex">\(\mathbb{E}[w_k v_j^T] = 0\)</span> for all <span class="arithmatex">\(k, j\)</span>).</li>
+</ol>
+<hr />
+<h2 id="2-ground-truth-system-measurement-models">2. Ground-Truth System &amp; Measurement Models</h2>
+<p>Before defining the estimator, we formally establish the true physical system model. The true state evolution and sensor observations are governed by:</p>
+<ul>
+<li><strong>Process Model:</strong></li>
+</ul>
+<div class="arithmatex">\[x_k = F x_{k-1} + B u_k + w_k, \quad w_k \sim \mathcal{N}(0, Q)\]</div>
+<ul>
+<li><strong>Measurement Model:</strong></li>
+</ul>
+<div class="arithmatex">\[z_k = H x_k + v_k, \quad v_k \sim \mathcal{N}(0, R)\]</div>
+<p>In reality, physics models (such as rigid-body kinematics or ballistic equations) capture the nominal system behavior, but real-world environments are stochastic. External unmodeled disturbances (e.g., aerodynamic turbulence, micro-gusts, unmodeled friction) act on the system as process noise <span class="arithmatex">\(w_k\)</span>. Sensors are similarly imperfect, introducing measurement noise <span class="arithmatex">\(v_k\)</span>. The Kalman Filter uses observations to continuously bound the cumulative drift caused by these uncertainties.</p>
+<hr />
+<h2 id="3-symbol-dimension-dictionary">3. Symbol &amp; Dimension Dictionary</h2>
+<p>Let <span class="arithmatex">\(n\)</span> represent the dimension of the state vector, <span class="arithmatex">\(m\)</span> represent the dimension of the measurement vector, and <span class="arithmatex">\(c\)</span> represent the dimension of the control input vector.</p>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>Description</th>
+<th>Dimensions (Rows <span class="arithmatex">\(\times\)</span> Cols)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Indices &amp; Operators</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(k\)</span></td>
+<td>Current discrete time step.</td>
+<td>Scalar</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(k-1\)</span></td>
+<td>Previous discrete time step.</td>
+<td>Scalar</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\hat{x}_{k\Vert{}k-1}\)</span></td>
+<td>A priori state estimate (predicted state at time <span class="arithmatex">\(k\)</span> given data up to <span class="arithmatex">\(k-1\)</span>).</td>
+<td><span class="arithmatex">\(n \times 1\)</span></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\hat{x}_{k\Vert{}k}\)</span></td>
+<td>A posteriori state estimate (updated state at time <span class="arithmatex">\(k\)</span> incorporating measurement <span class="arithmatex">\(z_k\)</span>).</td>
+<td><span class="arithmatex">\(n \times 1\)</span></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(^T\)</span></td>
+<td>Matrix transpose operator.</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(^{-1}\)</span></td>
+<td>Matrix inverse operator.</td>
+<td>-</td>
+</tr>
+<tr>
+<td><strong>State &amp; Covariance</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(x_k\)</span></td>
+<td>True state vector (e.g., position, velocity, orientation).</td>
+<td><span class="arithmatex">\(n \times 1\)</span></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(P_{k\Vert{}k-1}\)</span></td>
+<td>A priori estimate error covariance matrix; uncertainty of the prediction.</td>
+<td><span class="arithmatex">\(n \times n\)</span></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(P_{k\Vert{}k}\)</span></td>
+<td>A posteriori estimate error covariance matrix; uncertainty of the updated estimate.</td>
+<td><span class="arithmatex">\(n \times n\)</span></td>
+</tr>
+<tr>
+<td><strong>System Matrices</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(F\)</span></td>
+<td>State transition matrix; maps the state from time <span class="arithmatex">\(k-1\)</span> to <span class="arithmatex">\(k\)</span>.</td>
+<td><span class="arithmatex">\(n \times n\)</span></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(B\)</span></td>
+<td>Control input matrix; maps control inputs to state variations.</td>
+<td><span class="arithmatex">\(n \times c\)</span></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(u_k\)</span></td>
+<td>Control input vector; known deterministic commands applied to the system.</td>
+<td><span class="arithmatex">\(c \times 1\)</span></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(H\)</span></td>
+<td>Observation matrix; maps the state space into the measurement space.</td>
+<td><span class="arithmatex">\(m \times n\)</span></td>
+</tr>
+<tr>
+<td><strong>Noise Covariances</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(Q\)</span></td>
+<td>Process noise covariance matrix; models uncertainty in system dynamics.</td>
+<td><span class="arithmatex">\(n \times n\)</span></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(R\)</span></td>
+<td>Measurement noise covariance matrix; models sensor uncertainty/variance.</td>
+<td><span class="arithmatex">\(m \times m\)</span></td>
+</tr>
+<tr>
+<td><strong>Update Variables</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(y_k\)</span></td>
+<td>Innovation (measurement residual) vector; discrepancy between actual and predicted measurement.</td>
+<td><span class="arithmatex">\(m \times 1\)</span></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(S_k\)</span></td>
+<td>Innovation covariance matrix; total uncertainty of the residual.</td>
+<td><span class="arithmatex">\(m \times m\)</span></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(K_k\)</span></td>
+<td>Optimal Kalman Gain matrix; blending weight balancing model and sensor trust.</td>
+<td><span class="arithmatex">\(n \times m\)</span></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(I\)</span></td>
+<td>Identity matrix.</td>
+<td><span class="arithmatex">\(n \times n\)</span></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="4-recursive-filter-algorithm">4. Recursive Filter Algorithm</h2>
+<h3 id="step-1-predict-time-update">Step 1: Predict (Time Update)</h3>
+<p>The time update projects the current state and error covariance forward in time using the deterministic system dynamics and process noise statistics, independent of incoming sensor data.</p>
+<ul>
+<li><strong>Predicted (a priori) State Estimate:</strong></li>
+</ul>
+<div class="arithmatex">\[\hat{x}_{k\vert{}k-1} = F \hat{x}_{k-1\vert{}k-1} + B u_k\]</div>
+<ul>
+<li><strong>Predicted (a priori) Error Covariance:</strong></li>
+</ul>
+<div class="arithmatex">\[P_{k\vert{}k-1} = F P_{k-1\vert{}k-1} F^T + Q\]</div>
+<h3 id="step-2-update-measurement-update">Step 2: Update (Measurement Update)</h3>
+<p>The measurement update incorporates the latest sensor observation to correct the predicted state estimate, weighting the correction using the optimal Kalman Gain.</p>
+<ul>
+<li><strong>Innovation (Residual):</strong></li>
+</ul>
+<div class="arithmatex">\[y_k = z_k - H \hat{x}_{k\vert{}k-1}\]</div>
+<ul>
+<li><strong>Innovation Covariance:</strong></li>
+</ul>
+<div class="arithmatex">\[S_k = H P_{k\vert{}k-1} H^T + R\]</div>
+<ul>
+<li><strong>Optimal Kalman Gain:</strong></li>
+</ul>
+<div class="arithmatex">\[K_k = P_{k\vert{}k-1} H^T S_k^{-1}\]</div>
+<ul>
+<li><strong>Updated (a posteriori) State Estimate:</strong></li>
+</ul>
+<div class="arithmatex">\[\hat{x}_{k\vert{}k} = \hat{x}_{k\vert{}k-1} + K_k y_k\]</div>
+<ul>
+<li><strong>Updated (a posteriori) Error Covariance:</strong></li>
+</ul>
+<div class="arithmatex">\[P_{k\vert{}k} = (I - K_k H) P_{k\vert{}k-1}\]</div>
+<hr />
+<h2 id="5-production-engineering-considerations">5. Production Engineering Considerations</h2>
+<ul>
+<li><strong>Numerical Stability (Joseph Form):</strong> In embedded systems and long-horizon software implementations, the standard covariance update equation <span class="arithmatex">\(P_{k\vert{}k} = (I - K_k H) P_{k\vert{}k-1}\)</span> is susceptible to round-off errors, which can destroy matrix symmetry and positive-definiteness, eventually causing filter divergence. For safety-critical systems, implement the numerically stable <strong>Joseph form</strong>:</li>
+</ul>
+<div class="arithmatex">\[P_{k\vert{}k} = (I - K_k H) P_{k\vert{}k-1} (I - K_k H)^T + K_k R K_k^T\]</div>
+<ul>
+<li><strong>Covariance Tuning:</strong> Matrix tuning parameters <span class="arithmatex">\(Q\)</span> and <span class="arithmatex">\(R\)</span> dictate the filter's transient response and steady-state error. Over-tuning <span class="arithmatex">\(Q\)</span> makes the filter overly sensitive to high-frequency sensor noise, while under-tuning <span class="arithmatex">\(Q\)</span> causes the filter to lag behind rapid system maneuvers.</li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../Extended%20Kalman%20Filter/" class="btn btn-neutral float-left" title="Extended Kalman Filter (EKF)"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../Unscented%20Kalman%20Filter/" class="btn btn-neutral float-right" title="Unscented Kalman Filter (UKF)">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../Extended%20Kalman%20Filter/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../Unscented%20Kalman%20Filter/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../../../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../../../../..";</script>
+    <script src="../../../../../js/theme_extra.js"></script>
+    <script src="../../../../../js/theme.js"></script>
+      <script src="../../../../../javascripts/mathjax.js"></script>
+      <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      <script src="../../../../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
