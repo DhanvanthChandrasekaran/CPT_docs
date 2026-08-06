@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="description" content="None" /><link rel="canonical" href="https://.github.io//" />
+      <link rel="shortcut icon" href="img/favicon.ico" />
+    <title>CPT Project Documentation</title>
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Collaborative Payload Transport (CPT) using Multiple Quadrotors";
+        var mkdocs_page_input_path = "index.md";
+        var mkdocs_page_url = "//";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="." class="icon icon-home"> CPT Project Documentation
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Collaborative Payload Transport (CPT) using Multiple Quadrotors</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#documentation-structure">Documentation Structure</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#system-architecture">System Architecture</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#software-environment">Software Environment</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#hardware-stack">Hardware Stack</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#getting-started">Getting Started</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Code</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="Code/">TODO</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Simulation</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="Simulation/">CODE</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Subsystems</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="Subsystems/">The Subsystems</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Force Estimation</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="Subsystems/Force%20Estimation/01_Reduced%20Model%20Wrench%20Estimation/">Reduced Model Wrench Estimation</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="Subsystems/Force%20Estimation/02_Full%20Model%20Wrench%20Estimation/">Full Model Wrench Estimation</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Theory</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" >Suplement</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" href="Subsystems/Force%20Estimation/Theory/Suplement/Extended%20Kalman%20Filter/">Extended Kalman Filter (EKF)</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="Subsystems/Force%20Estimation/Theory/Suplement/Kalman%20Filters/">Linear Kalman Filter (KF)</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" href="Subsystems/Force%20Estimation/Theory/Suplement/Unscented%20Kalman%20Filter/">Unscented Kalman Filter (UKF)</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >State Estimation (VIO)</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="Subsystems/State%20Estimation%20%28VIO%29/00_first_draft/">First Draft</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="Subsystems/State%20Estimation%20%28VIO%29/01_theory_and_algorithms/">Visual Inertial Odometry (VIO) Theory &amp; Algorithms</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="Subsystems/State%20Estimation%20%28VIO%29/02_hardware_selection/">Hardware Considerations for VIO</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="Subsystems/State%20Estimation%20%28VIO%29/03_implementation_and_calibration/">VIO Implementation &amp; Calibration</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href=".">CPT Project Documentation</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Collaborative Payload Transport (CPT) using Multiple Quadrotors</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="collaborative-payload-transport-cpt-using-multiple-quadrotors">Collaborative Payload Transport (CPT) using Multiple Quadrotors</h1>
+<p><a href="https://ubuntu.com/"><img alt="Ubuntu 22.04" src="https://img.shields.io/badge/Ubuntu-22.04-E95420?logo=ubuntu&amp;logoColor=white" /></a>
+<a href="https://docs.ros.org/en/humble/"><img alt="ROS 2 - Humble" src="https://img.shields.io/badge/ROS_2-Humble-blue?logo=ros&amp;logoColor=white" /></a>
+<a href="https://px4.io/"><img alt="PX4 - Autopilot" src="https://img.shields.io/badge/PX4-Autopilot-102A4A?logo=px4&amp;logoColor=white" /></a>
+<a href="https://gazebosim.org/home"><img alt="Gazebo - Garden" src="https://img.shields.io/badge/Gazebo-Garden-orange?logo=gazebo&amp;logoColor=white" /></a>
+<a href="https://www.docker.com/"><img alt="Docker" src="https://img.shields.io/badge/Docker-Containerized-2496ED?logo=docker&amp;logoColor=white" /></a></p>
+<blockquote>
+<p><strong>⚠️ WORK IN PROGRESS</strong>
+Currently, only the draft documentation for a portion <strong>Subsystems</strong> is available. Documentation for the remaining Sections is actively being written and will be added in future updates.</p>
+</blockquote>
+<p>Welcome to the documentation for the Collaborative Payload Transport (CPT) project, developed under the guidance of Professor Krishna Prakash Yadav at the National Institute of Technology (NIT) Warangal.</p>
+<p>This project focuses on the challenge of coordinating multiple quadrotors to synchronously lift and transport a shared heavy payload.</p>
+<hr />
+<h2 id="documentation-structure">Documentation Structure</h2>
+<p>Whether you are looking to understand our control mathematics, replicate our simulation, or deploy the code, the documentation is split into three main areas:</p>
+<ul>
+<li><strong><a href="./Code">The Code</a></strong> 
+    Deep dive into the custom ROS 2 nodes, explaining the logic, structure, and reasoning behind our control and perception algorithms.</li>
+<li><strong><a href="./Subsystems">The Subsystems</a></strong> 
+    Explore the theory, implementation details, and selection considerations for our hardware and software subsystems.</li>
+<li><strong><a href="./Simulation">The Simulation</a></strong> 
+    A comprehensive guide to our Gazebo Garden setup, detailing the hurdles we faced, how to launch the environment, and a guide for making future modifications.</li>
+</ul>
+<hr />
+<h2 id="system-architecture">System Architecture</h2>
+<p>Our stack is designed to be easily reproducible and containerized for portability, utilizing standard tools in the modern robotics ecosystem.</p>
+<h3 id="software-environment">Software Environment</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Component</th>
+<th style="text-align: left;">Technology</th>
+<th style="text-align: left;">Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>OS</strong></td>
+<td style="text-align: left;">Ubuntu 22.04</td>
+<td style="text-align: left;">Primary operating system</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Middleware</strong></td>
+<td style="text-align: left;">ROS 2 Humble</td>
+<td style="text-align: left;">High-level control and perception logic</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Firmware</strong></td>
+<td style="text-align: left;">PX4</td>
+<td style="text-align: left;">Low-level flight control and stabilization</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Simulation</strong></td>
+<td style="text-align: left;">Gazebo Garden</td>
+<td style="text-align: left;">Physics and environment simulation</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Deployment</strong></td>
+<td style="text-align: left;">Docker</td>
+<td style="text-align: left;">Codebase containerization for easy portability</td>
+</tr>
+</tbody>
+</table>
+<h3 id="hardware-stack">Hardware Stack</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Component</th>
+<th style="text-align: left;">Hardware</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Compute Module</strong></td>
+<td style="text-align: left;">Jetson Orin Nano Super</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Vision &amp; Perception</strong></td>
+<td style="text-align: left;">Intel RealSense D435if</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Flight Controller</strong></td>
+<td style="text-align: left;">Pixhawk 6c</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="getting-started">Getting Started</h2>
+<p><em>TODO</em></p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="Code/" class="btn btn-neutral float-right" title="TODO">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+      <span><a href="Code/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = ".";</script>
+    <script src="js/theme_extra.js"></script>
+    <script src="js/theme.js"></script>
+      <script src="javascripts/mathjax.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      <script src="search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
+
+<!--
+MkDocs version : 1.6.1
+Build Date UTC : 2026-08-06 08:05:59.177521+00:00
+-->
